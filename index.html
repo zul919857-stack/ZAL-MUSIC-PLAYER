@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b16">
+<title>ZAL MUSIC PLAYER</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #090b16;
+    --card: #151a2b;
+    --border: #30364c;
+    --purple: #9255f6;
+    --pink: #e83da6;
+    --muted: #9da5bd;
+}
+
+body {
+    margin: 0;
+    padding: 25px 18px 40px;
+    background: var(--bg);
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 55px;
+}
+
+.logo {
+    height: 72px;
+    width: 72px;
+    min-width: 72px;
+    border-radius: 23px;
+    background: linear-gradient(135deg, var(--purple), var(--pink));
+    display: grid;
+    place-items: center;
+    font-size: 40px;
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.brand p {
+    color: var(--muted);
+    margin: 12px 0 0;
+    font-size: 16px;
+}
+
+.hero {
+    padding: 45px 28px;
+    border-radius: 35px;
+    background: linear-gradient(125deg, #39236f, #a23b91);
+    margin-bottom: 34px;
+}
+
+.hero h2 {
+    font-size: 35px;
+    margin: 0 0 24px;
+}
+
+.hero p {
+    font-size: 18px;
+    line-height: 1.7;
+    margin: 0;
+    color: #f0e6ff;
+}
+
+input {
+    width: 100%;
+    padding: 23px;
+    border-radius: 22px;
+    border: 2px solid var(--border);
+    background: var(--card);
+    color: white;
+    font-size: 17px;
+    outline: none;
+    margin-bottom: 18px;
+}
+
+input:focus {
+    border-color: var(--purple);
+}
+
+button {
+    cursor: pointer;
+    color: white;
+    border: none;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.primary {
+    width: 100%;
+    padding: 23px 15px;
+    border-radius: 21px;
+    background: linear-gradient(100deg, var(--purple), var(--pink));
+    margin-bottom: 30px;
+}
+
+.primary:active {
+    transform: scale(.99);
+}
+
+.status {
+    color: #c7b5ff;
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 0 0 32px;
+}
+
+.section {
+    margin-top: 30px;
+}
+
+.section h3 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 28px 22px;
+    border: 1px solid #20263b;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+#results {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.track {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 12px;
+    border-radius: 15px;
+    background: var(--card);
+}
+
+.track img {
+    width: 62px;
+    height: 62px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.track-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.track-info strong {
+    font-size: 14px;
+    display: block;
+    overflow-wrap: anywhere;
+}
+
+.track-info p {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 7px 0;
+}
+
+.track button {
+    padding: 10px 13px;
+    border-radius: 12px;
+    background: linear-gradient(100deg, var(--purple), var(--pink));
+    font-size: 12px;
+}
+
+#spotifyPlayer {
+    width: 100%;
+    border: none;
+    border-radius: 15px;
+    min-height: 152px;
+    margin-top: 12px;
+}
+
+.small {
+    font-size: 12px !important;
+    color: var(--muted);
+}
+
+footer {
+    color: #717991;
+    text-align: center;
+    padding: 35px 10px;
+    font-size: 12px;
+}
+
+@media (max-width: 380px) {
+    .hero h2 {
+        font-size: 27px;
+    }
+
+    .hero p {
+        font-size: 15px;
+    }
+
+    .brand h1 {
+        font-size: 21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">♫</div>
+    <div class="brand">
+        <h1>ZAL MUSIC</h1>
+        <p>POWERED BY SPOTIFY</p>
+    </div>
+</header>
+
+<section class="hero">
+    <h2>Feel The Music 🎧</h2>
+    <p>
+        Temukan lagu favoritmu dari katalog Spotify
+        dan nikmati musik melalui pemutar resmi.
+    </p>
+</section>
+
+<button class="primary" onclick="connectSpotify()">
+    🟢 Hubungkan Spotify
+</button>
+
+<div id="status" class="status">
+    Kamu bisa mencari musik dan membuka pemutar Spotify.
+</div>
+
+<section class="section">
+    <h3>🔍 Cari Lagu</h3>
+
+    <input id="searchInput"
+           type="search"
+           placeholder="Cari judul lagu atau penyanyi..."
+           onkeydown="if(event.key==='Enter') searchSpotify()">
+
+    <button class="primary" onclick="searchSpotify()">
+        🔎 Cari Lagu Spotify
+    </button>
+
+    <div id="results"></div>
+</section>
+
+<section class="section">
+    <h3>🎧 Pemutar Musik</h3>
+
+    <div class="card">
+        <h3>♫ Spotify Player</h3>
+
+        <p>
+            Pilih lagu dari hasil pencarian untuk memuat pemutar
+            Spotify resmi. Ketersediaan pemutaran mengikuti akun,
+            wilayah, dan ketentuan Spotify.
+        </p>
+
+        <iframe
+            id="spotifyPlayer"
+            title="Pemutar musik Spotify"
+            src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+        </iframe>
+
+        <p class="small">
+            Jika pemutar tidak berfungsi di browser ini, buka lagu
+            langsung di aplikasi Spotify.
+        </p>
+
+        <button class="primary" onclick="openSpotify()">
+            Buka Spotify
+        </button>
+    </div>
+</section>
+
+<footer>
+    ZAL MUSIC PLAYER © 2026<br>
+    Music provided through Spotify
+</footer>
+
+<script>
+const CLIENT_ID = "MASUKKAN_SPOTIFY_CLIENT_ID";
+const REDIRECT_URI = window.location.origin + window.location.pathname;
+
+function connectSpotify() {
+    if (CLIENT_ID === "MASUKKAN_SPOTIFY_CLIENT_ID") {
+        document.getElementById("status").textContent =
+            "Konfigurasi diperlukan: buat aplikasi di Spotify for Developers, " +
+            "masukkan Client ID, dan daftarkan Redirect URI. " +
+            "Sementara itu, kamu tetap bisa menggunakan pemutar Spotify di bawah.";
+        return;
+    }
+
+    const state = crypto.randomUUID();
+
+    sessionStorage.setItem("spotify_oauth_state", state);
+
+    const params = new URLSearchParams({
+        client_id: CLIENT_ID,
+        response_type: "token",
+        redirect_uri: REDIRECT_URI,
+        scope: "user-read-private user-read-email",
+        state: state
+    });
+
+    window.location.href =
+        "https://accounts.spotify.com/authorize?" + params.toString();
+}
+
+function getAccessToken() {
+    const hash = window.location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+
+    const token = params.get("access_token");
+    const state = params.get("state");
+    const savedState = sessionStorage.getItem("spotify_oauth_state");
+
+    if (token && state && state === savedState) {
+        sessionStorage.removeItem("spotify_oauth_state");
+        history.replaceState(null, "", window.location.pathname);
+        return token;
+    }
+
+    return null;
+}
+
+let accessToken = getAccessToken();
+
+if (accessToken) {
+    document.getElementById("status").textContent =
+        "Token akses diterima. Untuk pencarian katalog, aplikasi juga " +
+        "harus memperoleh izin dan akses API yang sesuai.";
+}
+
+async function searchSpotify() {
+    const query = document.getElementById("searchInput")
+        .value.trim();
+
+    const results = document.getElementById("results");
+
+    if (!query) {
+        document.getElementById("status").textContent =
+            "Masukkan judul lagu atau nama penyanyi.";
+        return;
+    }
+
+    if (!accessToken) {
+        document.getElementById("status").textContent =
+            "Pencarian katalog memerlukan OAuth dan token akses Spotify. " +
+            "Sebagai alternatif, buka pencarian Spotify di browser.";
+
+        window.open(
+            "https://open.spotify.com/search/" +
+            encodeURIComponent(query),
+            "_blank",
+            "noopener"
+        );
+        return;
+    }
+
+    results.replaceChildren();
+
+    document.getElementById("status").textContent =
+        "Sedang mencari katalog Spotify...";
+
+    try {
+        const response = await fetch(
+            "https://api.spotify.com/v1/search?" +
+            new URLSearchParams({
+                q: query,
+                type: "track",
+                limit: "10"
+            }),
+            {
+                headers: {
+                    Authorization: "Bearer " + accessToken
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("API mengembalikan status " + response.status);
+        }
+
+        const data = await response.json();
+        const tracks = data.tracks?.items || [];
+
+        if (!tracks.length) {
+            document.getElementById("status").textContent =
+                "Tidak ada lagu yang ditemukan.";
+            return;
+        }
+
+        tracks.forEach(track => {
+            const item = document.createElement("div");
+            item.className = "track";
+
+            const image = document.createElement("img");
+            image.src = track.album.images?.[2]?.url ||
+                        track.album.images?.[0]?.url || "";
+            image.alt = "Sampul album";
+
+            const info = document.createElement("div");
+            info.className = "track-info";
+
+            const title = document.createElement("strong");
+            title.textContent = track.name;
+
+            const artist = document.createElement("p");
+            artist.textContent = track.artists
+                .map(a => a.name).join(", ");
+
+            const play = document.createElement("button");
+            play.textContent = "▶ Putar";
+            play.onclick = () => {
+                document.getElementById("spotifyPlayer").src =
+                    "https://open.spotify.com/embed/track/" +
+                    encodeURIComponent(track.id);
+
+                document.getElementById("status").textContent =
+                    "Lagu dimuat di pemutar Spotify. Tekan Play pada pemutar.";
+
+                document.getElementById("spotifyPlayer")
+                    .scrollIntoView({behavior: "smooth", block: "center"});
+            };
+
+            const link = document.createElement("a");
+            link.href = track.external_urls.spotify;
+            link.target = "_blank";
+            link.rel = "noopener noreferrer";
+            link.textContent = "Buka Spotify";
+            link.style.color = "#c4b5fd";
+            link.style.fontSize = "12px";
+            link.style.display = "block";
+            link.style.marginTop = "8px";
+
+            info.append(title, artist, play, link);
+            item.append(image, info);
+            results.append(item);
+        });
+
+        document.getElementById("status").textContent =
+            "Ditemukan " + tracks.length + " lagu.";
+
+    } catch (error) {
+        console.error(error);
+
+        document.getElementById("status").textContent =
+            "Pencarian API gagal. Periksa token, izin API, dan konfigurasi OAuth.";
+    }
+}
+
+function openSpotify() {
+    window.open("https://open.spotify.com/", "_blank", "noopener");
+}
+</script>
+
+</body>
+</html>
